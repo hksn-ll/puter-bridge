@@ -14,11 +14,14 @@
             }).then(response => {
                 // Send result back to Android
                 AndroidInterface.onResult(response.toString());
+                puter.print(response);
             }).catch(error => {
                 console.error("Puter Error:", error);
                 AndroidInterface.onError(error.toString());
             });
         }
+
+        askGemini("hi");
     </script>
 </body>
 </html>
