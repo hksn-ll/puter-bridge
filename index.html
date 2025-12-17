@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://js.puter.com/v2/"></script>
+</head>
+<body>
+    <script>
+        // Listen for messages from the Android app
+        window.addEventListener('message', function(event) {
+            const data = JSON.parse(event.data);
+            if (data.type === 'ASK_GEMINI') {
+                puter.ai.chat(data.prompt, {
+                    model: 'gemini-2.5-flash'
+                }).then(response => {
+                    // Send response back to Android
+                    AndroidInterface.onResult(response.toString());
+                }).catch(error => {
+                    AndroidInterface.onError(error.toString());
+                });
+            }
+        });
+    </script>
+</body>
+</html>
