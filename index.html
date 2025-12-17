@@ -19,6 +19,12 @@
                 });
             }
         });
+
+        puter.ai.chat("Explain the concept of black holes in simple terms", {
+            model: 'gemini-2.5-flash'
+        }).then(response => {
+            puter.print(response);
+        });
     </script>
 </body>
 </html>
