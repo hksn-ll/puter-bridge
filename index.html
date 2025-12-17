@@ -5,26 +5,20 @@
 </head>
 <body>
     <script>
-        // Listen for messages from the Android app
-        window.addEventListener('message', function(event) {
-            const data = JSON.parse(event.data);
-            if (data.type === 'ASK_GEMINI') {
-                puter.ai.chat(data.prompt, {
-                    model: 'gemini-2.5-flash'
-                }).then(response => {
-                    // Send response back to Android
-                    AndroidInterface.onResult(response.toString());
-                }).catch(error => {
-                    AndroidInterface.onError(error.toString());
-                });
-            }
-        });
-
-        puter.ai.chat("Explain the concept of black holes in simple terms", {
-            model: 'gemini-2.5-flash'
-        }).then(response => {
-            puter.print(response);
-        });
+        // Use a direct function instead of a message listener
+        function askGemini(promptText) {
+            console.log("Received prompt:", promptText);
+            
+            puter.ai.chat(promptText, {
+                model: 'gemini-2.5-flash'
+            }).then(response => {
+                // Send result back to Android
+                AndroidInterface.onResult(response.toString());
+            }).catch(error => {
+                console.error("Puter Error:", error);
+                AndroidInterface.onError(error.toString());
+            });
+        }
     </script>
 </body>
 </html>
