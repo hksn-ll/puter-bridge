@@ -2,26 +2,37 @@
 <html>
 <head>
     <script src="https://js.puter.com/v2/"></script>
+    <style>
+        body { font-family: monospace; background: #222; color: #0f0; padding: 10px; font-size: 12px; }
+        #log { white-space: pre-wrap; }
+    </style>
 </head>
 <body>
+    <strong>AI BRIDGE LOGS:</strong>
+    <div id="log">Initializing...</div>
+
     <script>
-        // Use a direct function instead of a message listener
+        const logBox = document.getElementById('log');
+        function debug(msg) {
+            logBox.innerHTML += "<br>> " + msg;
+            console.log(msg);
+        }
+
+        debug("Puter.js loaded.");
+
         function askGemini(promptText) {
-            console.log("Received prompt:", promptText);
+            debug("Request received for: " + promptText.substring(0, 20) + "...");
             
             puter.ai.chat(promptText, {
                 model: 'gemini-2.5-flash'
             }).then(response => {
-                // Send result back to Android
+                debug("Success! Sending result to Android.");
                 AndroidInterface.onResult(response.toString());
-                
             }).catch(error => {
-                console.error("Puter Error:", error);
+                debug("ERROR: " + error);
                 AndroidInterface.onError(error.toString());
             });
         }
-
-       
     </script>
 </body>
 </html>
